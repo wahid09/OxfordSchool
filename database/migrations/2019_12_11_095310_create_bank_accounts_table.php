@@ -15,8 +15,8 @@ class CreateBankAccountsTable extends Migration
     {
         Schema::create('bank_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('financial_organization_id')->unsigned()->index();
-            $table->foreign('financial_organization_id')->references('id')
+            $table->bigInteger('financialorganization_id')->unsigned()->index();
+            $table->foreign('financialorganization_id')->references('id')
                   ->on('financial_organizations')->onDelete('cascade');
             $table->bigInteger('store_id')->nullable();
             $table->string('account_name');

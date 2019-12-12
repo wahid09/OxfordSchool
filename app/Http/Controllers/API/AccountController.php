@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth:api')->except('index', 'show');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +20,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return new BankAccountCollection(BankAccount::with('organization')->latest()->paginate(12));
+        return new BankAccountCollection(BankAccount::with('organization')->latest()->paginate(10));
     }
 
     /**
@@ -29,16 +32,22 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'account_name'    => 'required',
-            //'account_no'    => 'required|integer',
-            //'branch'          => 'required',
-            //'account_type'  => 'required',
-            //'swift_code'  => 'required|integer',
-            //'route_no'  => 'required',
+            'account_name'    => 'required|unique:bank_accounts',
+            'account_no'    => 'required|integer|unique:bank_accounts',
+            'branch'          => 'required',
+            'account_type'  => 'required',
+            'swift_code'  => 'required|integer|unique:bank_accounts',
+            'route_no'  => 'required',
         ]);
 
         $account = new BankAccount;
+        $account->financialorganization_id = $request->organization;
         $account->account_name = $request->account_name;
+        $account->account_no = $request->account_no;
+        $account->branch = $request->branch;
+        $account->account_type = $request->account_type;
+        $account->swift_code = $request->swift_code;
+        $account->route_no = $request->route_no;
 
         $account->save();
 
@@ -65,7 +74,27 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'account_name'    => 'required|unique:bank_accounts,account_name,'.$id,
+            'account_no'    => 'required|integer|unique:bank_accounts,account_no,'.$id,
+            'branch'          => 'required',
+            'account_type'  => 'required',
+            'swift_code'  => 'required|integer|unique:bank_accounts,swift_code,'.$id,
+            'route_no'  => 'required',
+        ]);
+
+        $account = BankAccount::findOrFail($id);
+        $account->financialorganization_id = $request->organization;
+        $account->account_name = $request->account_name;
+        $account->account_no = $request->account_no;
+        $account->branch = $request->branch;
+        $account->account_type = $request->account_type;
+        $account->swift_code = $request->swift_code;
+        $account->route_no = $request->route_no;
+
+        $account->save();
+
+        return new BankAccountResource($account);
     }
 
     /**

@@ -10,12 +10,14 @@ class BankAccount extends Model
 {
 	use SoftDeletes;
 
+	protected $table = "bank_accounts";
+
 	protected $fillable = [
-		
+		'financialorganization_id', 'store_id', 'account_name', 'account_no', 'branch', 'account_type', 'swift_code', 'route_no',
 	];
 	
     public function organization(){
 
-    	return $this->belongsTo(FinancialOrganization::class);
+    	return $this->belongsTo('App\Models\FinancialOrganization', 'financialorganization_id', 'id');
     }
 }

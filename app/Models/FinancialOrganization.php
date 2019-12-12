@@ -10,6 +10,8 @@ class FinancialOrganization extends Model
 {
 	use SoftDeletes;
 
+	protected $table = "financial_organizations";
+
 	protected $fillable = [
 		'name', 'short_name', 'address'
 	];

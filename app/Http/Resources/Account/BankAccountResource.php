@@ -21,6 +21,8 @@ class BankAccountResource extends JsonResource
             'branch' => $this->branch,
             'swift_code' => $this->swift_code,
             'route_no' => $this->route_no,
+            'bank' => $this->organization->name,
+            'account_type' => $this->account_type,
         ];
     }
 }

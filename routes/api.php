@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'API'], function(){
 	Route::apiResource('accounts', 'AccountController');
+	Route::apiResource('organizations', 'OrganizationController');
 });

@@ -9,7 +9,7 @@ use Faker\Generator as Faker;
 $factory->define(BankAccount::class, function (Faker $faker) {
 	$organizationId = FinancialOrganization::pluck('id')->toArray();
     return [
-        'financial_organization_id' => $faker->randomElement($organizationId),
+        'financialorganization_id' => $faker->randomElement($organizationId),
         'account_name' => $faker->name,
         'account_no'   => $faker->creditCardNumber,
         'branch'       => $faker->word,
